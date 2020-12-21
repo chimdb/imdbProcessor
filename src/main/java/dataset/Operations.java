@@ -3,6 +3,8 @@ package dataset;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SQLContext;
+import static org.apache.spark.sql.functions.*;
+import utils.Configurations;
 
 import java.io.File;
 
@@ -21,6 +23,13 @@ public class Operations {
                         .concat(datasetName));
     }
 
+    public static Dataset<Row> filterMovies(Dataset<Row> rankings, int threshold, int limit) {
+        return rankings.filter( col("rank")
+                .$greater(threshold))
+                .orderBy(desc("rank"))
+                .limit(limit);
+    }
+
     public static long computeAverageRatings(Dataset<Row> rankingsDataset) {
 
         long totalLinesCount = rankingsDataset.count();
@@ -37,6 +46,15 @@ public class Operations {
                 .orderBy("tconst")
                 .coalesce(1).write().csv("aka_names.csv");
     }
+
+    public static Dataset<Row> computeRankings(Dataset<Row> ratingsDataset, long averageVote) {
+        return ratingsDataset.withColumn(
+                "rank",
+                col("numVotes")
+                        .multiply(averageVote)
+                        .divide(col("averageRating")));
+    }
+
 
 
     public static void printActorsPerTitlesResult(Dataset<Row> actorsDataset) {

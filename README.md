@@ -4,19 +4,19 @@ This project coniains code fo rprocessing imdb datasets.
 
 In order to get expected results the followin datasets were used:
 
-name.basics.tsv
-title.akas.csv
-title.principals.tsv
-title.ratings.tsv
+-name.basics.tsv
+-title.akas.csv
+-title.principals.tsv
+-title.ratings.tsv
 
 
 ## Dependencies
 
 Need to have following installed on a linux machine(tested on Ubnutu 20)
 
-Oracle Java 8
-Maven 3
-Spark 2.4.7
+- Oracle Java 8
+- Maven 3
+- Spark 2.4.7
 
 ## How to run the code
 
@@ -34,9 +34,14 @@ Spark 2.4.7
 3. see the results
 	- the results will be stored in current /target subfolders: 
 
-	 actors.csv/partXXX.csv file
-	 aka_names.csv/partYYY.csv file
+	- actors.csv/partXXX.csv file
+	- aka_names.csv/partYYY.csv file
 	 
 4. configurations
-	src/main/java/utils/Configurations.java 
-	holds processing configurations such as rating threshold(default 500) and top movies to analyze(default 10)	
+	- src/main/java/utils/Configurations.java 
+	- holds processing configurations such as rating threshold(default 500) and top movies to analyze(default 10)	
+
+5. tests
+	- tests run by default when running mvn clen install
+	- if one wants to skip tests try running following command instead
+	- mvn clean install -DskipTest
